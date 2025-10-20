@@ -132,7 +132,7 @@ F. KONFIGURASI STATIC FILES
 2. Scroll ke section "Static files"
 3. Klik "Enter URL" dan isi:
    URL: /static/
-   Directory: /home/USERNAME/jkn-dashboard/static
+   Directory: /home/surya76/jmlh_psn_rwt_jln_mnrt_klnk_brdsrkn_jk_11/static
 
    GANTI "USERNAME" dengan username PythonAnywhere Anda!
 
@@ -146,7 +146,7 @@ G. RELOAD WEB APP
 
 H. BUKA DASHBOARD
 ------------------
-1. Klik link di atas: https://USERNAME.pythonanywhere.com
+1. Klik link di atas: https://surya76.pythonanywhere.com
 2. Dashboard seharusnya sudah berjalan!
 
 ================================================================================
