@@ -1,0 +1,338 @@
+# MATERI PRESENTASI
+# Ujian Tengah Semester - Ilmu Data
+# Tanggal: 13 Oktober 2025
+# Durasi: ~10 menit
+
+===============================================================================
+OUTLINE PRESENTASI
+===============================================================================
+
+## SLIDE 1: JUDUL (30 detik)
+- Judul: Dashboard Visualisasi Data JKN
+- Sub-judul: Analisis Jumlah Peserta Rawat Jalan Berdasarkan Kelompok
+- Nama & NIM
+- Mata Kuliah: Ilmu Data - UTS
+
+## SLIDE 2: DATASET (2 menit)
+
+### Sumber Data
+- Dataset: Jumlah Peserta Rawat Jalan Menurut Kelompok Berdasarkan JKN
+- Lokus: Jawa Timur
+- Periode: 2018 - 2025
+
+### Struktur Dataset
+- Total Baris: 7,890 records
+- Total Kolom: 10 atribut
+- Kolom Numerik: 5 (id, id_index, kode_provinsi, jumlah, tahun)
+- Kolom Kategorikal: 5 (nama_provinsi, periode_update, klinik, kategori, satuan)
+
+### Deskripsi Atribut
+1. **id**: Identifier unik
+2. **id_index**: Index identifier
+3. **kode_provinsi**: Kode provinsi (35 = Jawa Timur)
+4. **nama_provinsi**: Nama provinsi
+5. **periode_update**: Periode pembaruan data (YYYY-MM)
+6. **klinik**: Jenis klinik (61 jenis berbeda)
+7. **kategori**: Kategori pasien (Laki-laki / Perempuan)
+8. **jumlah**: Jumlah pasien rawat jalan
+9. **satuan**: Satuan pengukuran (PASIEN)
+10. **tahun**: Tahun data
+
+### Karakteristik Data Penting
+- Jumlah pasien rata-rata: 78.24 pasien per record
+- Median: 48 pasien
+- Range: 0 - 271 pasien (setelah capping outliers)
+- Distribusi gender: 50% Laki-laki, 50% Perempuan
+
+===============================================================================
+
+## SLIDE 3: DATA PREPROCESSING (3-4 menit)
+
+### A. MISSING VALUES
+**Status: ✅ TIDAK ADA**
+- Analisis: Dilakukan pengecekan missing values pada semua kolom
+- Hasil: Tidak ditemukan missing values dalam dataset
+- Kesimpulan: Dataset sudah cukup bersih dari sisi kelengkapan data
+
+### B. DATA DUPLIKAT
+**Status: ✅ TIDAK ADA**
+- Analisis: Pengecekan baris duplikat
+- Hasil: 0 baris duplikat terdeteksi
+- Kesimpulan: Setiap record adalah unik
+
+### C. OUTLIERS
+**Status: ⚠️ DITEMUKAN dan DITANGANI**
+
+#### Metode Deteksi: IQR (Interquartile Range)
+Formula:
+- Q1 = Kuartil pertama (25%)
+- Q3 = Kuartil ketiga (75%)
+- IQR = Q3 - Q1
+- Lower Bound = Q1 - 1.5 × IQR
+- Upper Bound = Q3 + 1.5 × IQR
+
+#### Hasil Deteksi pada Kolom 'jumlah':
+- Jumlah outliers: 748 records (9.48%)
+- Batas bawah: -145.00
+- Batas atas: 271.00
+- Nilai outliers: > 271 pasien
+
+#### Metode Handling: CAPPING
+- Outliers yang > 271 diganti menjadi 271
+- Outliers yang < -145 diganti menjadi -145 (tidak ada kasus)
+- Alasan: Mempertahankan semua data tanpa menghilangkan informasi
+
+#### Sebelum vs Sesudah:
+- Sebelum: Max = 1,419 pasien
+- Sesudah: Max = 271 pasien
+- Baris tetap: 7,890 (tidak ada data yang dihapus)
+
+### D. HASIL PREPROCESSING
+- Data original: 7,890 baris × 10 kolom
+- Data cleaned: 7,890 baris × 10 kolom
+- Baris dihapus: 0
+- File output: data_cleaned.csv
+
+===============================================================================
+
+## SLIDE 4: ANALISIS STATISTIK DESKRIPTIF (2 menit)
+
+### A. STATISTIK KOLOM UTAMA: JUMLAH PASIEN
+
+**Measures of Central Tendency:**
+- Mean (Rata-rata): 78.24 pasien
+- Median (Nilai tengah): 48.00 pasien
+- Mode (Nilai paling sering): 271.00 pasien
+
+**Measures of Dispersion:**
+- Standard Deviation: 84.89
+- Variance: 7,205.69
+- Range: 271.00
+- IQR: 104.00
+
+**Measures of Shape:**
+- Skewness: 1.19 (Right-skewed/positif skew)
+  → Sebagian besar data berada di nilai rendah, beberapa di nilai tinggi
+- Kurtosis: 0.22 (Mendekati distribusi normal)
+
+**Quartiles:**
+- Q1 (25%): 11 pasien
+- Q2 (50%): 48 pasien
+- Q3 (75%): 115 pasien
+
+### B. DISTRIBUSI TAHUN
+- Tahun: 2018 - 2025
+- Mean: 2021.51
+- Mode: 2024 (data paling banyak)
+
+### C. DISTRIBUSI KLINIK
+- Total jenis klinik: 61 klinik berbeda
+- Top 5 klinik:
+  1. Gizi: 186 records (2.4%)
+  2. Eksekutif Bedah Umum: 186 records (2.4%)
+  3. THT-KL: 186 records (2.4%)
+  4. Bedah Orthopedi: 186 records (2.4%)
+  5. ASIH: 186 records (2.4%)
+
+### D. KORELASI ANTAR VARIABEL
+- Korelasi 'tahun' dengan 'id': 0.88 (sangat kuat positif)
+  → Semakin baru tahunnya, id cenderung lebih tinggi
+- Korelasi 'jumlah' dengan variabel lain: rendah (~0.07)
+  → Jumlah pasien tidak terlalu dipengaruhi tahun/id
+
+===============================================================================
+
+## SLIDE 5: VISUALISASI UNTUK DASHBOARD (3 menit)
+
+### A. JENIS VISUALISASI YANG DIBUAT
+
+#### 1. Dashboard Ringkasan (Summary Dashboard)
+**Tujuan**: Overview keseluruhan dataset
+**Konten**:
+- Info jumlah baris dan kolom
+- Preview distribusi
+- Tabel statistik deskriptif
+
+#### 2. Distribusi Data
+**Tipe**: Histogram & Boxplot
+**Insight**:
+- Histogram menunjukkan distribusi right-skewed pada jumlah pasien
+- Boxplot menunjukkan outliers yang sudah ditangani
+- Sebagian besar klinik memiliki 11-115 pasien
+
+#### 3. Visualisasi Kategorikal
+**Tipe**: Bar Chart
+**Analisis**:
+- Distribusi per klinik (61 jenis)
+- Distribusi gender (50-50)
+- Tren periode update
+
+#### 4. Time Series Analysis
+**Tipe**: Line Chart
+**Insight**:
+- Tren jumlah pasien dari 2018-2025
+- Pola seasonal atau tren naik/turun
+- Identifikasi periode puncak dan lembah
+
+#### 5. Perbandingan Antar Kategori
+**Tipe**: Grouped Bar Chart
+**Analisis**:
+- Jumlah pasien per klinik
+- Perbandingan laki-laki vs perempuan per klinik
+- Total vs rata-rata per kategori
+
+#### 6. Matriks Korelasi
+**Tipe**: Heatmap
+**Insight**:
+- Hubungan antar variabel numerik
+- Identifikasi variabel yang saling mempengaruhi
+
+#### 7. Visualisasi Interaktif
+**Tipe**: Plotly Interactive Charts
+**Fitur**:
+- Zoom in/out
+- Hover untuk detail
+- Filter dinamis
+- Scatter plot interaktif
+- Bar chart interaktif
+
+### B. INSIGHT UTAMA DARI VISUALISASI
+
+#### Insight 1: Distribusi Gender Seimbang
+- Laki-laki: 50% (3,945 records)
+- Perempuan: 50% (3,945 records)
+- Menunjukkan aksesibilitas JKN yang merata
+
+#### Insight 2: Variasi Antar Klinik
+- 61 jenis klinik menunjukkan diversitas layanan
+- Klinik Gizi, Bedah, dan THT-KL paling banyak records
+- Beberapa klinik memiliki jumlah pasien lebih tinggi
+
+#### Insight 3: Tren Temporal
+- Data dari 2018-2025 (8 tahun)
+- Peningkatan data collection di tahun 2024
+- Periode update konsisten setiap bulan
+
+#### Insight 4: Outliers pada Jumlah Pasien
+- 9.48% data memiliki nilai ekstrim
+- Menunjukkan ada klinik/periode dengan jumlah pasien sangat tinggi
+- Perlu investigasi lebih lanjut untuk kasus ekstrim
+
+### C. DASHBOARD WEB FEATURES
+
+#### Halaman Home:
+- Ringkasan statistik dataset
+- Cards untuk metrics penting
+- Preview visualisasi utama
+
+#### Halaman Visualisasi:
+- Visualisasi statis (high-quality PNG)
+- Visualisasi interaktif (Plotly)
+- Kontrol dinamis untuk explore data
+- Filter berdasarkan kolom
+
+#### Halaman About:
+- Metodologi
+- Teknologi yang digunakan
+- Informasi deployment
+
+===============================================================================
+
+## SLIDE 6: TEKNOLOGI & DEPLOYMENT (1 menit)
+
+### A. TECH STACK
+
+**Backend:**
+- Python 3.11
+- Flask (Web Framework)
+- Pandas (Data Processing)
+- NumPy (Numerical Computing)
+- SciPy (Statistical Analysis)
+
+**Visualisasi:**
+- Matplotlib (Static Plots)
+- Seaborn (Statistical Visualization)
+- Plotly (Interactive Visualization)
+
+**Frontend:**
+- Bootstrap 5 (Responsive Design)
+- HTML5/CSS3
+- JavaScript (Interactivity)
+
+### B. DEPLOYMENT
+**Platform**: PythonAnywhere.com
+- Free tier available
+- Support Flask framework
+- Easy configuration
+- URL: yourusername.pythonanywhere.com
+
+===============================================================================
+
+## SLIDE 7: KESIMPULAN & DEMO (1 menit)
+
+### KESIMPULAN
+
+1. **Dataset Berkualitas**:
+   - Tidak ada missing values
+   - Tidak ada duplikat
+   - Outliers telah ditangani
+
+2. **Analisis Komprehensif**:
+   - Statistik deskriptif lengkap
+   - Multiple visualizations
+   - Interactive dashboard
+
+3. **Insight Berharga**:
+   - Gender distribution seimbang
+   - Variasi layanan klinik tinggi
+   - Tren temporal teridentifikasi
+
+### DEMO SINGKAT
+- Live demo dashboard
+- Navigate through pages
+- Show interactive features
+
+===============================================================================
+
+## TIPS PRESENTASI
+
+### Waktu Allocation:
+- Slide 1 (Judul): 30 detik
+- Slide 2 (Dataset): 2 menit
+- Slide 3 (Preprocessing): 3 menit
+- Slide 4 (Statistik): 2 menit
+- Slide 5 (Visualisasi): 2 menit
+- Slide 6 (Tech): 30 detik
+- Slide 7 (Demo): 1 menit
+**Total: ~10 menit**
+
+### Speaking Points:
+1. Bicara dengan jelas dan percaya diri
+2. Gunakan laser pointer untuk highlight poin penting
+3. Jelaskan WHY bukan hanya WHAT
+4. Connect to real-world implications
+5. Prepare untuk Q&A
+
+### Common Questions to Prepare:
+1. Mengapa menggunakan capping untuk outliers?
+2. Apa insight utama dari dataset?
+3. Bagaimana cara deploy ke PythonAnywhere?
+4. Apa visualisasi paling informatif?
+5. Apakah ada limitasi dalam analisis?
+
+===============================================================================
+
+## BACKUP SLIDES (Jika ada waktu lebih atau Q&A)
+
+### SLIDE TAMBAHAN 1: Limitasi & Future Work
+- Limitasi: Data hanya dari Jawa Timur
+- Future: Analisis multi-provinsi
+- Future: Machine Learning predictions
+- Future: Real-time dashboard updates
+
+### SLIDE TAMBAHAN 2: Code Snippets
+- Contoh code preprocessing
+- Contoh code visualisasi
+- Flask routes
+
+===============================================================================

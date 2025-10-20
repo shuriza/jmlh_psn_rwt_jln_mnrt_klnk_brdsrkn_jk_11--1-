@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang - Dashboard JKN</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ecf0f1;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 30px;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .content-card h4 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .tech-badge {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-graph-up-arrow"></i> Dashboard JKN
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/visualizations">Visualisasi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/about">Tentang</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container text-center">
+            <h1><i class="bi bi-info-circle-fill"></i> Tentang Proyek</h1>
+            <p class="lead">Informasi lengkap tentang dashboard dan metodologi</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Project Overview -->
+        <div class="content-card">
+            <h4><i class="bi bi-book"></i> Deskripsi Proyek</h4>
+            <p>
+                Dashboard ini dibuat sebagai bagian dari <strong>Ujian Tengah Semester Ilmu Data</strong> 
+                dengan fokus pada visualisasi dan analisis data peserta rawat jalan berdasarkan program 
+                Jaminan Kesehatan Nasional (JKN).
+            </p>
+            <p>
+                Proyek ini mencakup seluruh proses data science pipeline mulai dari pengumpulan data, 
+                preprocessing, analisis statistik, hingga visualisasi interaktif berbasis web.
+            </p>
+        </div>
+
+        <!-- Dataset Information -->
+        <div class="content-card">
+            <h4><i class="bi bi-database"></i> Tentang Dataset</h4>
+            <div class="feature-box">
+                <h5><i class="bi bi-file-earmark-spreadsheet"></i> Sumber Data</h5>
+                <p>
+                    Dataset: <strong>Jumlah Peserta Rawat Jalan Menurut Kelompok Berdasarkan JKN</strong>
+                </p>
+                <p class="mb-0">
+                    Dataset ini berisi informasi mengenai jumlah peserta program JKN yang melakukan 
+                    rawat jalan, dikelompokkan berdasarkan berbagai kategori demografis dan geografis.
+                </p>
+            </div>
+        </div>
+
+        <!-- Methodology -->
+        <div class="content-card">
+            <h4><i class="bi bi-gear-fill"></i> Metodologi</h4>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h5><i class="bi bi-1-circle-fill text-primary"></i> Data Preprocessing</h5>
+                    <ul>
+                        <li><strong>Missing Values:</strong> Identifikasi dan penanganan data yang hilang menggunakan median (numerik) dan modus (kategorikal)</li>
+                        <li><strong>Duplicate Data:</strong> Deteksi dan penghapusan data duplikat</li>
+                        <li><strong>Outliers:</strong> Identifikasi outliers menggunakan IQR method dan penanganan dengan capping technique</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h5><i class="bi bi-2-circle-fill text-warning"></i> Analisis Statistik Deskriptif</h5>
+                    <ul>
+                        <li>Perhitungan measures of central tendency (mean, median, mode)</li>
+                        <li>Measures of dispersion (variance, standard deviation, range, IQR)</li>
+                        <li>Measures of shape (skewness, kurtosis)</li>
+                        <li>Analisis korelasi antar variabel numerik</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h5><i class="bi bi-3-circle-fill text-success"></i> Visualisasi Data</h5>
+                    <ul>
+                        <li>Histogram dan boxplot untuk distribusi data</li>
+                        <li>Bar chart untuk data kategorikal</li>
+                        <li>Heatmap untuk matriks korelasi</li>
+                        <li>Time series plot untuk analisis tren (jika ada data temporal)</li>
+                        <li>Comparative charts untuk analisis perbandingan</li>
+                        <li>Interactive plots menggunakan Plotly</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h5><i class="bi bi-4-circle-fill text-info"></i> Dashboard Development</h5>
+                    <ul>
+                        <li>Web framework menggunakan Flask</li>
+                        <li>Frontend dengan Bootstrap 5 untuk responsive design</li>
+                        <li>Visualisasi interaktif dengan Plotly.js</li>
+                        <li>RESTful API untuk data endpoints</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technologies Used -->
+        <div class="content-card">
+            <h4><i class="bi bi-code-square"></i> Teknologi yang Digunakan</h4>
+            <p><strong>Backend:</strong></p>
+            <div class="mb-3">
+                <span class="tech-badge"><i class="bi bi-python"></i> Python 3.x</span>
+                <span class="tech-badge"><i class="bi bi-cup-hot"></i> Flask</span>
+                <span class="tech-badge">Pandas</span>
+                <span class="tech-badge">NumPy</span>
+                <span class="tech-badge">SciPy</span>
+            </div>
+            
+            <p><strong>Visualisasi:</strong></p>
+            <div class="mb-3">
+                <span class="tech-badge">Matplotlib</span>
+                <span class="tech-badge">Seaborn</span>
+                <span class="tech-badge">Plotly</span>
+            </div>
+            
+            <p><strong>Frontend:</strong></p>
+            <div class="mb-3">
+                <span class="tech-badge"><i class="bi bi-bootstrap"></i> Bootstrap 5</span>
+                <span class="tech-badge">HTML5</span>
+                <span class="tech-badge">CSS3</span>
+                <span class="tech-badge">JavaScript</span>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="content-card">
+            <h4><i class="bi bi-list-check"></i> Fitur Dashboard</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="feature-box">
+                        <h6><i class="bi bi-clipboard-data text-primary"></i> Ringkasan Dataset</h6>
+                        <p class="mb-0">Informasi umum tentang struktur dan karakteristik dataset</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feature-box">
+                        <h6><i class="bi bi-calculator text-success"></i> Statistik Deskriptif</h6>
+                        <p class="mb-0">Perhitungan lengkap statistik untuk semua atribut</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feature-box">
+                        <h6><i class="bi bi-bar-chart text-warning"></i> Visualisasi Statis</h6>
+                        <p class="mb-0">Grafik berkualitas tinggi untuk analisis mendalam</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feature-box">
+                        <h6><i class="bi bi-arrows-fullscreen text-info"></i> Visualisasi Interaktif</h6>
+                        <p class="mb-0">Chart interaktif dengan zoom, pan, dan hover capabilities</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feature-box">
+                        <h6><i class="bi bi-diagram-3 text-danger"></i> Analisis Korelasi</h6>
+                        <p class="mb-0">Identifikasi hubungan antar variabel numerik</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feature-box">
+                        <h6><i class="bi bi-phone text-secondary"></i> Responsive Design</h6>
+                        <p class="mb-0">Tampilan optimal di berbagai ukuran layar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deployment -->
+        <div class="content-card">
+            <h4><i class="bi bi-cloud-upload"></i> Deployment</h4>
+            <p>
+                Dashboard ini dirancang untuk di-deploy ke <strong>PythonAnywhere.com</strong>, 
+                sebuah platform cloud hosting untuk aplikasi Python.
+            </p>
+            <div class="alert alert-info">
+                <h6><i class="bi bi-info-circle"></i> Langkah Deployment ke PythonAnywhere:</h6>
+                <ol>
+                    <li>Upload semua file proyek ke PythonAnywhere</li>
+                    <li>Install dependencies dari requirements.txt</li>
+                    <li>Konfigurasi web app dengan WSGI file</li>
+                    <li>Set static files directory ke folder /static</li>
+                    <li>Reload web app dan dashboard siap digunakan</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Academic Info -->
+        <div class="content-card">
+            <h4><i class="bi bi-mortarboard"></i> Informasi Akademik</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Mata Kuliah:</strong> Ilmu Data</p>
+                    <p><strong>Tugas:</strong> Ujian Tengah Semester</p>
+                    <p><strong>Tahun:</strong> 2025</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Tanggal Presentasi:</strong> 13 Oktober 2025</p>
+                    <p><strong>Durasi Presentasi:</strong> ~10 menit</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="content-card text-center">
+            <h4><i class="bi bi-envelope"></i> Kontak</h4>
+            <p>Untuk pertanyaan atau saran mengenai dashboard ini, silakan hubungi:</p>
+            <div class="mt-3">
+                <button class="btn btn-primary me-2">
+                    <i class="bi bi-github"></i> GitHub
+                </button>
+                <button class="btn btn-info">
+                    <i class="bi bi-envelope-fill"></i> Email
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="mb-0">
+                <i class="bi bi-mortarboard-fill"></i> 
+                Ujian Tengah Semester - Ilmu Data
+            </p>
+            <p class="small mt-2">Dashboard Visualisasi Data JKN © 2025</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

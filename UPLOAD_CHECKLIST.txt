@@ -1,0 +1,132 @@
+================================================================
+CHECKLIST UPLOAD KE PYTHONANYWHERE
+================================================================
+
+SEBELUM UPLOAD:
+===============
+[x] Dataset tersedia (jmlh_psn_rwt_jln_mnrt_klnk_brdsrkn_jk_11.xlsx)
+[x] data_cleaned.csv sudah di-generate
+[x] Semua visualisasi sudah di-generate (folder static/)
+[x] Dashboard sudah di-test lokal
+[x] Semua requirement UTS terpenuhi
+
+FILE YANG HARUS DIUPLOAD:
+==========================
+[x] app.py
+[x] requirements.txt
+[x] jmlh_psn_rwt_jln_mnrt_klnk_brdsrkn_jk_11.xlsx
+[x] data_cleaned.csv
+[x] Folder templates/ (2 files HTML)
+[x] Folder static/ (39+ files visualisasi)
+
+OPSIONAL (untuk backup/dokumentasi):
+[x] data_preprocessing.py
+[x] statistical_analysis.py
+[x] data_visualization.py
+[x] README_SIMPLE.md
+
+LANGKAH UPLOAD:
+===============
+
+1. BUAT AKUN PYTHONANYWHERE
+   - Daftar di: https://www.pythonanywhere.com
+   - Pilih Beginner account (gratis)
+   - Verifikasi email
+
+2. UPLOAD FILES
+   - Klik tab "Files"
+   - Buat folder: dashboard-jkn
+   - Upload semua file di atas ke folder tersebut
+   
+3. INSTALL DEPENDENCIES
+   - Klik tab "Consoles"
+   - Buka "Bash console"
+   - Ketik:
+     cd dashboard-jkn
+     pip3.10 install --user -r requirements.txt
+   
+4. SETUP WEB APP
+   - Klik tab "Web"
+   - "Add a new web app"
+   - Domain: username.pythonanywhere.com
+   - Manual configuration
+   - Python 3.10
+   
+5. EDIT WSGI FILE
+   - Di tab Web, klik WSGI configuration file
+   - Hapus semua isi
+   - Copy paste ini (GANTI username):
+
+---BEGIN WSGI---
+import sys
+project_home = '/home/username/dashboard-jkn'
+if project_home not in sys.path:
+    sys.path = [project_home] + sys.path
+from app import app as application
+---END WSGI---
+
+   - Save (Ctrl+S)
+   
+6. SET STATIC FILES
+   - Di tab Web, scroll ke "Static files"
+   - URL: /static/
+   - Directory: /home/username/dashboard-jkn/static/
+   - (GANTI username dengan username kamu)
+   
+7. RELOAD WEB APP
+   - Klik tombol hijau "Reload username.pythonanywhere.com"
+   - Tunggu 10 detik
+   
+8. TEST WEBSITE
+   - Buka: username.pythonanywhere.com
+   - Check halaman Home (harus muncul statistik)
+   - Check halaman Visualisasi (harus muncul grafik)
+   - Test interactive charts
+
+TROUBLESHOOTING:
+================
+
+ERROR: "ImportError: No module named 'flask'"
+→ Run: pip3.10 install --user Flask
+
+ERROR: "ImportError: No module named 'pandas'"
+→ Run: pip3.10 install --user pandas numpy matplotlib seaborn plotly openpyxl scipy
+
+ERROR: Gambar tidak muncul
+→ Check static files path di tab Web
+→ Pastikan: /home/username/dashboard-jkn/static/
+
+ERROR: 500 Internal Server Error
+→ Check error log di tab Web → Log files → Error log
+→ Biasanya import error, install package yang kurang
+
+================================================================
+SELESAI!
+================================================================
+
+URL Dashboard: https://username.pythonanywhere.com
+
+Ganti "username" dengan username PythonAnywhere kamu.
+
+================================================================
+CATATAN PENTING:
+================
+
+1. FREE ACCOUNT LIMITATIONS:
+   - 1 web app only
+   - Must visit every 3 months atau web app sleep
+   - Limited CPU time per day
+   - No custom domain (pakai username.pythonanywhere.com)
+
+2. JIKA ERROR:
+   - Jangan panik
+   - Check error log (tab Web → Log files)
+   - Google error message
+   - Forum PythonAnywhere: https://www.pythonanywhere.com/forums/
+
+3. UNTUK UPDATE CODE:
+   - Edit file via web editor
+   - Reload web app
+   - Test changes
+
+================================================================
