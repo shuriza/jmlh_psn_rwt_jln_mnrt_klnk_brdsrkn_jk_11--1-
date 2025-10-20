@@ -1,0 +1,230 @@
+================================================================================
+PANDUAN LENGKAP: UPLOAD KE GITHUB DAN DEPLOY KE PYTHONANYWHERE
+================================================================================
+
+STRUKTUR PROJECT (2.09 MB, 14 files):
+--------------------------------------
+├── app.py                          (Flask aplikasi)
+├── data_cleaned.csv                (Dataset yang sudah dibersihkan)
+├── requirements.txt                (Dependencies minimal)
+├── README.md                       (Dokumentasi)
+├── .gitignore                      (File yang diabaikan Git)
+├── static/                         (7 file visualisasi PNG)
+│   ├── categorical_kategori.png
+│   ├── categorical_klinik.png
+│   ├── categorical_nama_provinsi.png
+│   ├── correlation_heatmap.png
+│   ├── distribution_plots.png
+│   ├── summary_dashboard.png
+│   └── timeseries_jumlah.png
+└── templates/                      (2 file HTML)
+    ├── index.html
+    └── visualizations.html
+
+================================================================================
+LANGKAH 1: UPLOAD KE GITHUB
+================================================================================
+
+1. Buka https://github.com dan login
+2. Klik tombol "+" di pojok kanan atas → "New repository"
+3. Isi form:
+   - Repository name: jkn-dashboard
+   - Description: Dashboard Visualisasi Data JKN Jawa Timur
+   - Pilih: Public
+   - JANGAN centang "Add a README file" (sudah ada)
+   - Klik "Create repository"
+
+4. Buka PowerShell di folder project, jalankan:
+
+   cd "c:\Users\surya\Downloads\jmlh_psn_rwt_jln_mnrt_klnk_brdsrkn_jk_11 (1)"
+   
+   git init
+   git add .
+   git commit -m "Initial commit: JKN Dashboard"
+   git branch -M main
+   git remote add origin https://github.com/USERNAME/jkn-dashboard.git
+   git push -u origin main
+
+   GANTI "USERNAME" dengan username GitHub Anda!
+
+5. Refresh halaman GitHub, pastikan semua file terupload
+
+================================================================================
+LANGKAH 2: DEPLOY KE PYTHONANYWHERE
+================================================================================
+
+A. PERSIAPAN PYTHONANYWHERE
+----------------------------
+1. Daftar di https://www.pythonanywhere.com (Free Account)
+2. Verifikasi email
+3. Login ke dashboard PythonAnywhere
+
+B. CLONE REPOSITORY DARI GITHUB
+--------------------------------
+1. Di dashboard PythonAnywhere, buka tab "Consoles"
+2. Klik "Bash" untuk membuka Bash console
+3. Jalankan perintah berikut:
+
+   cd ~
+   git clone https://github.com/USERNAME/jkn-dashboard.git
+   cd jkn-dashboard
+   ls -lh
+
+   GANTI "USERNAME" dengan username GitHub Anda!
+
+C. SETUP VIRTUAL ENVIRONMENT
+-----------------------------
+1. Masih di Bash console, jalankan:
+
+   python3.10 -m venv venv
+   source venv/bin/activate
+   pip install --upgrade pip
+   pip install -r requirements.txt
+
+   CATATAN: Proses instalasi membutuhkan waktu 2-5 menit
+
+D. KONFIGURASI WEB APP
+-----------------------
+1. Tutup Bash console
+2. Di dashboard, buka tab "Web"
+3. Klik "Add a new web app"
+4. Klik "Next" untuk domain default (USERNAME.pythonanywhere.com)
+5. Pilih "Manual configuration"
+6. Pilih "Python 3.10"
+7. Klik "Next"
+
+E. KONFIGURASI WSGI FILE
+-------------------------
+1. Di halaman Web app, scroll ke section "Code"
+2. Klik link "WSGI configuration file"
+3. HAPUS semua isi file, lalu ganti dengan:
+
+# ============================================================================
+# WSGI Configuration untuk Flask
+# ============================================================================
+import sys
+import os
+
+# Path ke project
+path = '/home/USERNAME/jkn-dashboard'
+if path not in sys.path:
+    sys.path.insert(0, path)
+
+# Path ke virtual environment
+venv_path = '/home/USERNAME/jkn-dashboard/venv'
+activate_this = os.path.join(venv_path, 'bin', 'activate_this.py')
+
+# Activate virtual environment
+with open(activate_this) as file_:
+    exec(file_.read(), dict(__file__=activate_this))
+
+# Import Flask app
+from app import app as application
+# ============================================================================
+
+   GANTI "USERNAME" dengan username PythonAnywhere Anda (2 tempat)!
+
+4. Klik "Save" (Ctrl+S atau tombol di atas)
+
+F. KONFIGURASI STATIC FILES
+----------------------------
+1. Kembali ke halaman Web app
+2. Scroll ke section "Static files"
+3. Klik "Enter URL" dan isi:
+   URL: /static/
+   Directory: /home/USERNAME/jkn-dashboard/static
+
+   GANTI "USERNAME" dengan username PythonAnywhere Anda!
+
+4. Klik tombol hijau "✓"
+
+G. RELOAD WEB APP
+-----------------
+1. Scroll ke atas halaman Web
+2. Klik tombol hijau besar "Reload USERNAME.pythonanywhere.com"
+3. Tunggu beberapa detik
+
+H. BUKA DASHBOARD
+------------------
+1. Klik link di atas: https://USERNAME.pythonanywhere.com
+2. Dashboard seharusnya sudah berjalan!
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+ERROR 1: "502 Bad Gateway"
+---------------------------
+Solusi:
+- Periksa WSGI file, pastikan path sudah benar
+- Cek error log di tab "Web" → "Error log"
+- Pastikan virtual environment sudah terinstall dengan benar
+
+ERROR 2: "ModuleNotFoundError: No module named 'flask'"
+-------------------------------------------------------
+Solusi:
+- Buka Bash console
+- cd ~/jkn-dashboard
+- source venv/bin/activate
+- pip install -r requirements.txt
+
+ERROR 3: "FileNotFoundError: data_cleaned.csv"
+----------------------------------------------
+Solusi:
+- Pastikan file data_cleaned.csv ada di folder project
+- Cek di Bash console: ls -lh ~/jkn-dashboard/
+
+ERROR 4: Static files tidak muncul (gambar tidak muncul)
+---------------------------------------------------------
+Solusi:
+- Periksa konfigurasi Static files di tab "Web"
+- Pastikan path benar: /home/USERNAME/jkn-dashboard/static
+
+ERROR 5: "Disk quota exceeded"
+-------------------------------
+Solusi:
+- Project ini hanya 2 MB, seharusnya tidak ada masalah
+- Jika tetap error, hapus file lain di akun PythonAnywhere
+- Periksa penggunaan disk di tab "Files"
+
+================================================================================
+UPDATE PROJECT (Jika ada perubahan)
+================================================================================
+
+1. Edit file di komputer lokal
+2. Git add, commit, push ke GitHub:
+   
+   cd "c:\Users\surya\Downloads\jmlh_psn_rwt_jln_mnrt_klnk_brdsrkn_jk_11 (1)"
+   git add .
+   git commit -m "Update: deskripsi perubahan"
+   git push
+
+3. Update di PythonAnywhere:
+   - Buka Bash console di PythonAnywhere
+   - cd ~/jkn-dashboard
+   - git pull
+   - Klik "Reload" di tab Web
+
+================================================================================
+CATATAN PENTING
+================================================================================
+
+✓ Project size: 2.09 MB (sangat kecil, aman untuk free tier)
+✓ Dependencies minimal: Flask, pandas, numpy, plotly
+✓ Tidak ada database external, semua data di CSV
+✓ 7 visualisasi penting sudah tersimpan sebagai PNG
+✓ Dashboard interaktif dengan API endpoints
+
+LINK PENTING:
+- GitHub: https://github.com/USERNAME/jkn-dashboard
+- Dashboard: https://USERNAME.pythonanywhere.com
+- PythonAnywhere Dashboard: https://www.pythonanywhere.com/user/USERNAME/
+
+FITUR DASHBOARD:
+1. Halaman Home: Dataset info, preprocessing status, statistik deskriptif
+2. Halaman Visualizations: Galeri visualisasi (7 charts)
+3. API Endpoints: /api/data, /api/stats, dan dynamic visualization APIs
+
+================================================================================
+SELAMAT! Dashboard Anda Siap Digunakan! 🎉
+================================================================================

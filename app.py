@@ -22,12 +22,8 @@ def load_dataset():
     """Load dataset"""
     global df
     try:
-        if os.path.exists('data_cleaned.csv'):
-            df = pd.read_csv('data_cleaned.csv')
-            print("✓ Data cleaned dimuat")
-        else:
-            df = pd.read_excel('jmlh_psn_rwt_jln_mnrt_klnk_brdsrkn_jk_11.xlsx')
-            print("✓ Data original dimuat")
+        df = pd.read_csv('data_cleaned.csv')
+        print("✓ Data cleaned dimuat")
         return True
     except Exception as e:
         print(f"✗ Error loading data: {e}")
